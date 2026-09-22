@@ -1,4 +1,5 @@
 # Campus Parking Management System
+
 ## Product Requirements Document
 
 **Document owner:** Product Owner  
@@ -13,6 +14,7 @@
 The Campus Parking Management System helps campus users understand parking availability and manage their parking activity.
 
 Users should be able to:
+
 - register and manage their vehicles;
 - see parking areas;
 - understand whether parking is available;
@@ -21,11 +23,13 @@ Users should be able to:
 - see their parking history.
 
 Parking staff should be able to:
+
 - inspect current parking activity;
 - search for vehicles and parking sessions;
 - correct specific operational issues when necessary.
 
 Administrators should be able to:
+
 - configure parking areas;
 - configure capacity and operational status;
 - view current operational information;
@@ -38,6 +42,7 @@ The project is also intended to train an intern/junior engineer in the software 
 # 2. Problem Statement
 
 Campus users may not know:
+
 - which parking areas exist;
 - whether a parking area is currently usable;
 - whether space is still available;
@@ -46,6 +51,7 @@ Campus users may not know:
 - their previous parking activity.
 
 Parking staff may not have a single operational view of:
+
 - active parking sessions;
 - vehicles currently parked;
 - capacity by parking area;
@@ -96,11 +102,13 @@ Technical performance targets, architecture targets, and infrastructure targets 
 ## 5.1 Campus User
 
 Typical users:
+
 - student;
 - lecturer;
 - campus employee.
 
 Primary needs:
+
 - know parking availability;
 - register a vehicle;
 - start parking;
@@ -110,6 +118,7 @@ Primary needs:
 ## 5.2 Parking Staff
 
 Primary needs:
+
 - understand current parking activity;
 - look up a vehicle or parking session;
 - inspect active parking sessions;
@@ -118,6 +127,7 @@ Primary needs:
 ## 5.3 Administrator
 
 Primary needs:
+
 - manage parking areas;
 - manage capacity;
 - open/close parking areas;
@@ -152,6 +162,7 @@ Primary needs:
 ## 6.2 Out of Scope
 
 The following are not required for MVP:
+
 - payment;
 - parking fees;
 - automatic license plate recognition;
@@ -335,6 +346,7 @@ As the Product Owner, I want important staff/admin actions to be traceable so th
 # 10. Product-Level Data Expectations
 
 The product must represent enough information to support:
+
 - users;
 - roles;
 - vehicles;
@@ -349,6 +361,7 @@ The product must represent enough information to support:
 The Product Owner is intentionally **not defining the database schema**.
 
 The intern must decide and justify:
+
 - entities/tables;
 - relationships;
 - keys;
@@ -365,6 +378,7 @@ The intern must decide and justify:
 The Flutter application must communicate with the backend through a documented contract that supports all accepted user journeys.
 
 The Product Owner is intentionally **not defining**:
+
 - REST endpoint paths;
 - resource shape;
 - request/response DTOs;
@@ -383,12 +397,14 @@ The intern must propose these during design review.
 The user should see useful parking availability information.
 
 The Product Owner expects:
+
 - availability not to knowingly exceed configured capacity;
 - invalid parking attempts to be rejected;
 - availability to reflect successful parking changes;
 - temporary infrastructure problems not to permanently corrupt parking state.
 
 The Product Owner is intentionally **not prescribing**:
+
 - whether occupancy is stored or computed;
 - how Redis is used;
 - how freshness is maintained;
@@ -401,6 +417,7 @@ The Product Owner is intentionally **not prescribing**:
 # 13. Product-Level Security Expectations
 
 The product must:
+
 - protect user accounts;
 - restrict privileged features;
 - prevent users from modifying another user's resources;
@@ -415,6 +432,7 @@ The implementation approach is the intern's responsibility.
 # 14. Product-Level UX Expectations
 
 The mobile app should clearly communicate:
+
 - loading;
 - success;
 - empty state;
@@ -423,6 +441,7 @@ The mobile app should clearly communicate:
 - expired/invalid authentication state when applicable.
 
 The Product Owner is intentionally not specifying:
+
 - widget structure;
 - navigation library;
 - state-management package;
@@ -433,6 +452,7 @@ The Product Owner is intentionally not specifying:
 # 15. Product-Level Quality Expectations
 
 Before the Product Owner accepts a feature:
+
 - the happy path must work;
 - acceptance criteria must pass;
 - invalid actions must be handled;
@@ -450,6 +470,7 @@ Exact testing architecture is intentionally not prescribed.
 The intern/junior should work in small increments.
 
 For each major feature:
+
 1. clarify requirements;
 2. propose technical design;
 3. identify edge cases;
@@ -464,6 +485,7 @@ For each major feature:
 # 17. Technical Deliverables Expected from the Intern
 
 Before full implementation, the intern should produce:
+
 - system context / high-level architecture;
 - component architecture;
 - database design / ERD;
@@ -481,11 +503,179 @@ These are engineering outputs, not Product Owner requirements.
 
 ---
 
-# 18. Open Product Questions
+# 18. Milestones
+
+### Milestone 1 — Discovery and Design
+
+Deliverables:
+
+- requirements questions;
+- domain glossary;
+- ERD;
+- API draft;
+- architecture diagram;
+- RFCs.
+
+### Milestone 2 — Backend Foundation
+
+Deliverables:
+
+- Node.js service;
+- TypeScript setup;
+- migrations;
+- health endpoints;
+- logging;
+- auth;
+- users;
+- vehicles.
+
+### Milestone 3 — Parking Core
+
+Deliverables:
+
+- parking areas;
+- parking sessions;
+- transaction-safe admission;
+- checkout;
+- history.
+
+### Milestone 4 — Flutter MVP
+
+Deliverables:
+
+- auth flow;
+- vehicle flow;
+- parking list;
+- parking detail;
+- check-in;
+- checkout;
+- history.
+
+### Milestone 5 — Redis
+
+Deliverables:
+
+- availability cache;
+- invalidation;
+- outage fallback;
+- measurements.
+
+### Milestone 6 — Administration
+
+Deliverables:
+
+- dashboard;
+- parking-area management;
+- session search;
+- manual close;
+- audit log.
+
+### Milestone 7 — Quality and Delivery
+
+Deliverables:
+
+- CI;
+- integration tests;
+- concurrency tests;
+- deployment;
+- final documentation;
+- retrospective.
+
+---
+
+## 26. Example Acceptance Scenarios
+
+### Scenario A — Successful Parking
+
+Given:
+
+- parking area capacity = 10;
+- occupancy = 9;
+- vehicle has no active session.
+
+When:
+
+- user starts parking.
+
+Then:
+
+- session becomes ACTIVE;
+- occupancy becomes 10;
+- available becomes 0;
+- API returns success.
+
+### Scenario B — Parking Full
+
+Given:
+
+- capacity = 10;
+- active sessions = 10.
+
+When:
+
+- user attempts to park.
+
+Then:
+
+- no session is created;
+- API returns 409;
+- error code = PARKING_FULL.
+
+### Scenario C — Concurrent Last Slot
+
+Given:
+
+- capacity = 1;
+- no active sessions.
+
+When:
+
+- two check-in requests arrive concurrently.
+
+Then:
+
+- one succeeds;
+- one fails;
+- active sessions = 1.
+
+### Scenario D — Duplicate Active Session
+
+Given:
+
+- vehicle already has an ACTIVE session.
+
+When:
+
+- user attempts another check-in.
+
+Then:
+
+- request is rejected with 409;
+- no second session is created.
+
+### Scenario E — Redis Outage
+
+Given:
+
+- Redis unavailable;
+- PostgreSQL healthy.
+
+When:
+
+- user lists parking areas and starts parking.
+
+Then:
+
+- parking list may be slower;
+- core operation still succeeds if PostgreSQL permits it;
+- no inconsistent state is created.
+
+# 19. Open Product Questions
 
 The intern should raise questions when product behavior is ambiguous.
 
 Examples:
+
 - Can one user park two different vehicles at the same time?
 - Is a license plate globally unique?
 - What should happen when a user forgets to checkout?
